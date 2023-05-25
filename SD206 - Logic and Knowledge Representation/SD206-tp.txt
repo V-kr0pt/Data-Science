@@ -1,0 +1,65 @@
+Family_1
+
+
+aunt(T, N) :-
+    sister(T, S),
+    parent(S, N).
+
+Last_element
+
+
+% extracting the last element from a list
+last_elt([_|L], E) :-
+    last_elt(L, E).
+last_elt([E], E).
+
+Attach
+
+
+% joining two lists
+attach([ ], L, L).
+attach([X|L1], L2, [X|L3]) :-
+    attach(L1, L2, L3). Note : Most Prolog implementations offer a version of attach. In SWI-Prolog, it is called append.
+
+Concatenation
+
+
+attach([ ], L, L).
+attach([X|L1], L2, [X|L3]) :-
+    attach(L1, L2, L3).
+
+assemble(L1, L2, L3, Res) :-
+    attach(L1, L2, L4),
+    attach(L4, L3, Res).
+
+Sublists
+
+
+sub_list(L1, L2) :-
+    attach(_, L, L2),
+    attach(L1, _, L).
+
+% or:
+sub_list1(L1, L2) :-
+    assemble(_, L1, _, L2).
+
+% or:
+sub_list2(L1, L2) :-
+    attach(L1, _, L2).
+sub_list2(L1, [_|L2]) :-
+    sub_list2(L1, L2).
+    
+
+Perec
+
+
+remove(X, [X|L], L1) :-
+    !,
+    remove(X, L, L1).
+remove(X, [Y|L], [Y|L1]) :-
+    remove(X, L, L1).
+remove(_, [ ], [ ]).
+
+duplicate([], []).
+duplicate([X|L], [X,X|M]) :-
+    duplicate(L, M).
